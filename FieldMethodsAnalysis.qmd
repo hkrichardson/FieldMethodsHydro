@@ -13,7 +13,7 @@ library(cowplot)
 ```
 
 ```{r}
-setwd("/Users/hannahrichardson/Documents/BSU/Spring '23/Field Methods/FieldMethodsAnalysis")
+setwd("/Users/hannahrichardson/Documents/BSU/Spring '23/Field Methods/FieldMethodsHydro")
 list.files()
 df <- read.csv("Quality Beaver Meadows Data Template.csv")
 ```
@@ -30,6 +30,8 @@ NOx <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab('NOx (mg/L)')+
+  ggtitle('Week 1')+
+  theme(plot.title = element_text(hjust = 0.5))+
   theme_bw()
 
 PO4 <- df %>%
@@ -80,7 +82,9 @@ NOx <- df %>%
   ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-  ylab('NOx (mg/L)')+
+  ylab(NULL)+
+  ggtitle('Week 2')+
+  theme(plot.title = element_text(hjust = 0.5))+
   theme_bw()
 
 PO4 <- df %>%
@@ -88,7 +92,7 @@ PO4 <- df %>%
   ggplot(aes(x = Site_type, y = PO4_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-  ylab('PO4 (mg/L)')+
+  ylab(NULL)+
   theme_bw()
 
 NH4 <- df %>%
@@ -96,7 +100,7 @@ NH4 <- df %>%
   ggplot(aes(x = Site_type, y = NH4_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-  ylab('NH4 (mg/L)')+
+  ylab(NULL)+
   theme_bw()
 
 temp <- df %>%
@@ -104,7 +108,7 @@ temp <- df %>%
   ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-  ylab('Temp C')+
+  ylab(NULL)+
   theme_bw()
 
 EC <- df %>%
@@ -112,13 +116,15 @@ EC <- df %>%
   ggplot(aes(x = Site_type, y = EC, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab('Site Type')+
-  ylab('EC (uS/cm)')+
+  ylab(NULL)+
   theme_bw()
 
 Wk2<-plot_grid(NOx, PO4, NH4, temp, EC, 
                 nrow =5)
 
 ```
+
+## Week 3
 
 ```{r}
 date<- "3/10/23"
@@ -128,7 +134,9 @@ NOx <- df %>%
   ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-  ylab('NOx (mg/L)')+
+  ylab(NULL)+
+  ggtitle('Week 3')+
+  theme(plot.title = element_text(hjust = 0.5))+
   theme_bw()
 
 PO4 <- df %>%
@@ -136,7 +144,7 @@ PO4 <- df %>%
   ggplot(aes(x = Site_type, y = PO4_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-  ylab('PO4 (mg/L)')+
+ylab(NULL)+
   theme_bw()
 
 NH4 <- df %>%
@@ -144,23 +152,26 @@ NH4 <- df %>%
   ggplot(aes(x = Site_type, y = NH4_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-  ylab('NH4 (mg/L)')+
+  ylab(NULL)+
   theme_bw()
 
 temp <- df %>%
   filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
+  geom_boxplot()+
   xlab(NULL)+
-  ylab('Temp C')+
-  theme_bw()
+ylab(NULL)+
+  theme_bw()+
+    theme(legend.position = c(0.35, 0.7),
+        legend.background = element_rect( fill = alpha("white", 0)))+
+  labs(fill = "Site Location")
 
 EC <- df %>%
   filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = EC, fill= Site_Location))+
   geom_boxplot(show.legend=FALSE)+
   xlab('Site Type')+
-  ylab('EC (uS/cm)')+
+  ylab(NULL)+
   theme_bw()
 
 Wk3<-plot_grid(NOx, PO4, NH4, temp, EC, 
@@ -173,6 +184,8 @@ allplot<-plot_grid(Wk1,Wk2,Wk3,
 
 ```
 
+## Combined weeks
+
 ```{r}
 #Above and below pool
 NOx <- df %>%
@@ -202,10 +215,13 @@ NH4 <- df %>%
 temp <- df %>%
   #filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
+  geom_boxplot()+
   xlab(NULL)+
   ylab('Temp C')+
-  theme_bw()
+  theme_bw()+
+      theme(legend.position = c(0.15, 0.7),
+      legend.background = element_rect( fill = alpha("white", 0)))+
+  labs(fill = "Site Location")
 
 EC <- df %>%
  # filter(Date == date)%>%
@@ -218,6 +234,8 @@ EC <- df %>%
 Combo<-plot_grid(NOx, PO4, NH4, temp, EC, 
                 nrow =5)
 ```
+
+## Save pdf
 
 ```{r}
 pdf(file = "Allplots.pdf",
