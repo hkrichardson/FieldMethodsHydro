@@ -6,13 +6,13 @@ editor: visual
 
 # Beaver Dam Nutrient Analysis
 
-**Purpose** The purpose of this code is to examine patterns in nutrients (NOx, PO4 and NH4), temperature, and specific conductivity above and below beaver dams in Dry Creek Experimental Watershed, Boise, ID.
+**Purpose** The purpose of this code is to examine patterns in nutrients (NOx, PO4 and NH3), temperature, and specific conductivity above and below beaver dams in Dry Creek Experimental Watershed, Boise, ID.
 
 **Output** The output of this code is two box and whisker figures. The first groups samples by above and below a beaver dam at two separate sites, a lower and upper dam. One plot analyzes each sample day separately, while the other combines values measured across all days.
 
-**To do:** add comments, maybe pseudocode, explanation at top of what code does and how, any assumptions made.
+**To do** standardize y axis range
 
-## Load Libraries 
+## Load Libraries
 
 ```{r}
 #| warning: false
@@ -37,7 +37,8 @@ Pulls out data from Week 1 of analysis and builds box and whisker plots
 ```{r}
 #Set date
 date<- "2/24/23"
-#Above and below pool
+
+#Create above and below pool box and whisker plots for each measured value
 NOx <- df %>%
   filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
@@ -81,6 +82,7 @@ EC <- df %>%
   ylab('EC (uS/cm)')+
   theme_bw()
 
+#combine each individual plot into a column 
 Wk1<-plot_grid(NOx, PO4, NH4, temp, EC, 
                 nrow =5)
 
@@ -93,7 +95,8 @@ Pulls out data from Week 2 of analysis and builds box and whisker plots
 ```{r}
 #set date
 date<- "3/3/23"
-#Above and below pool
+
+#Create above and below pool box and whisker plots for each measured value
 NOx <- df %>%
   filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
@@ -136,6 +139,7 @@ EC <- df %>%
   ylab(NULL)+
   theme_bw()
 
+#combine each individual plot into a column 
 Wk2<-plot_grid(NOx, PO4, NH4, temp, EC, 
                 nrow =5)
 
@@ -148,7 +152,8 @@ Pulls out data from Week 3 of analysis and builds box and whisker plots
 ```{r}
 #set date
 date<- "3/10/23"
-#Above and below pool
+
+#Create above and below pool box and whisker plots for each measured value
 NOx <- df %>%
   filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
@@ -194,6 +199,7 @@ EC <- df %>%
   ylab(NULL)+
   theme_bw()
 
+#combine each individual plot into a column 
 Wk3<-plot_grid(NOx, PO4, NH4, temp, EC, 
                 nrow =5)
 ```
@@ -205,15 +211,13 @@ Combine box and whisker plots into one figure
 ```{r}
 allplot<-plot_grid(Wk1,Wk2,Wk3,
                    ncol= 3)
-
 ```
 
 ## Average weeks
 
 ```{r}
-#Above and below pool
+#Create above and below pool box and whisker plots for each measured value
 NOx <- df %>%
-  #filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
@@ -221,7 +225,6 @@ NOx <- df %>%
   theme_bw()
 
 PO4 <- df %>%
-  #filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = PO4_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
@@ -229,7 +232,6 @@ PO4 <- df %>%
   theme_bw()
 
 NH4 <- df %>%
-  #filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = NH4_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
@@ -237,7 +239,6 @@ NH4 <- df %>%
   theme_bw()
 
 temp <- df %>%
-  #filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
   geom_boxplot()+
   xlab(NULL)+
@@ -248,13 +249,13 @@ temp <- df %>%
   labs(fill = "Site Location")
 
 EC <- df %>%
- # filter(Date == date)%>%
   ggplot(aes(x = Site_type, y = EC, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab('Site Type')+
   ylab('EC (uS/cm)')+
   theme_bw()
 
+#combine each individual plot into a column 
 Combo<-plot_grid(NOx, PO4, NH4, temp, EC, 
                 nrow =5)
 ```
