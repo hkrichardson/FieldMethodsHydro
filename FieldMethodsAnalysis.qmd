@@ -4,6 +4,16 @@ format: html
 editor: visual
 ---
 
+# Beaver Dam Nutrient Analysis
+
+**Purpose** The purpose of this code is to examine patterns in nutrients (NOx, PO4 and NH4), temperature, and specific conductivity above and below beaver dams in Dry Creek Experimental Watershed, Boise, ID.
+
+**Output** The output of this code is two box and whisker figures. The first groups samples by above and below a beaver dam at two separate sites, a lower and upper dam. One plot analyzes each sample day separately, while the other combines values measured across all days.
+
+**To do:** add comments, maybe pseudocode, explanation at top of what code does and how, any assumptions made.
+
+## Load Libraries 
+
 ```{r}
 #| warning: false
 library(ggplot2)
@@ -11,6 +21,8 @@ library(readxl)
 library(dplyr)
 library(cowplot)
 ```
+
+## Bring in data
 
 ```{r}
 setwd("/Users/hannahrichardson/Documents/BSU/Spring '23/Field Methods/FieldMethodsHydro")
@@ -20,8 +32,10 @@ df <- read.csv("Quality Beaver Meadows Data Template.csv")
 
 ## Week 1
 
+Pulls out data from Week 1 of analysis and builds box and whisker plots
+
 ```{r}
-#Above and below pool
+#Set date
 date<- "2/24/23"
 #Above and below pool
 NOx <- df %>%
@@ -74,7 +88,10 @@ Wk1<-plot_grid(NOx, PO4, NH4, temp, EC,
 
 ## Week 2
 
+Pulls out data from Week 2 of analysis and builds box and whisker plots
+
 ```{r}
+#set date
 date<- "3/3/23"
 #Above and below pool
 NOx <- df %>%
@@ -126,7 +143,10 @@ Wk2<-plot_grid(NOx, PO4, NH4, temp, EC,
 
 ## Week 3
 
+Pulls out data from Week 3 of analysis and builds box and whisker plots
+
 ```{r}
+#set date
 date<- "3/10/23"
 #Above and below pool
 NOx <- df %>%
@@ -178,13 +198,17 @@ Wk3<-plot_grid(NOx, PO4, NH4, temp, EC,
                 nrow =5)
 ```
 
+### Combine weekly plots
+
+Combine box and whisker plots into one figure
+
 ```{r}
 allplot<-plot_grid(Wk1,Wk2,Wk3,
                    ncol= 3)
 
 ```
 
-## Combined weeks
+## Average weeks
 
 ```{r}
 #Above and below pool
@@ -235,7 +259,7 @@ Combo<-plot_grid(NOx, PO4, NH4, temp, EC,
                 nrow =5)
 ```
 
-## Save pdf
+## Save pdfs
 
 ```{r}
 pdf(file = "Allplots.pdf",
@@ -252,3 +276,7 @@ pdf(file = "Weekscombined.pdf",
 Combo
 dev.off()
 ```
+
+Kendra notes
+
+Naming convention: Project first (for folders)-\> name script based on what it's doing. Can separate code into separate chunks as different scripts, I.e. "upload data", "clean data", "make model", etc.
