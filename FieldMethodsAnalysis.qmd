@@ -30,6 +30,16 @@ list.files()
 df <- read.csv("Quality Beaver Meadows Data Template.csv")
 ```
 
+```{r}
+#set consistent y limits for each plot
+
+noxlim<-c(0.032,0.044)
+po4lim<-c(0.016,0.024)
+nh4lim<-c(0.0150,0.0225)
+templim<-c(0,8)
+eclim<-c(130,190)
+```
+
 ## Week 1
 
 Pulls out data from Week 1 of analysis and builds box and whisker plots
@@ -47,6 +57,7 @@ NOx <- df %>%
   ylab('NOx (mg/L)')+
   ggtitle('Week 1')+
   theme(plot.title = element_text(hjust = 0.5))+
+  ylim(noxlim)+
   theme_bw()
 
 PO4 <- df %>%
@@ -55,6 +66,7 @@ PO4 <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab('PO4 (mg/L)')+
+  ylim(po4lim)+
   theme_bw()
 
 NH4 <- df %>%
@@ -63,6 +75,7 @@ NH4 <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab('NH4 (mg/L)')+
+  ylim(nh4lim)+
   theme_bw()
 
 temp <- df %>%
@@ -72,6 +85,7 @@ temp <- df %>%
   xlab(NULL)+
   xlab('Site Type')+
   ylab('Temp C')+
+  ylim(templim)+
   theme_bw()
 
 EC <- df %>%
@@ -80,6 +94,7 @@ EC <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab('Site Type')+
   ylab('EC (uS/cm)')+
+  ylim(eclim)+
   theme_bw()
 
 #combine each individual plot into a column 
@@ -105,6 +120,7 @@ NOx <- df %>%
   ylab(NULL)+
   ggtitle('Week 2')+
   theme(plot.title = element_text(hjust = 0.5))+
+  ylim(noxlim)+
   theme_bw()
 
 PO4 <- df %>%
@@ -113,6 +129,7 @@ PO4 <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab(NULL)+
+  ylim(po4lim)+
   theme_bw()
 
 NH4 <- df %>%
@@ -121,6 +138,7 @@ NH4 <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab(NULL)+
+  ylim(nh4lim)+
   theme_bw()
 
 temp <- df %>%
@@ -129,6 +147,7 @@ temp <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab(NULL)+
+  ylim(templim)+
   theme_bw()
 
 EC <- df %>%
@@ -137,6 +156,7 @@ EC <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab('Site Type')+
   ylab(NULL)+
+  ylim(eclim)+
   theme_bw()
 
 #combine each individual plot into a column 
@@ -162,6 +182,7 @@ NOx <- df %>%
   ylab(NULL)+
   ggtitle('Week 3')+
   theme(plot.title = element_text(hjust = 0.5))+
+  ylim(noxlim)+
   theme_bw()
 
 PO4 <- df %>%
@@ -169,7 +190,8 @@ PO4 <- df %>%
   ggplot(aes(x = Site_type, y = PO4_mgL, fill= Site_Location))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-ylab(NULL)+
+  ylab(NULL)+
+  ylim(po4lim)+
   theme_bw()
 
 NH4 <- df %>%
@@ -178,6 +200,7 @@ NH4 <- df %>%
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab(NULL)+
+  ylim(nh4lim)+
   theme_bw()
 
 temp <- df %>%
@@ -185,11 +208,12 @@ temp <- df %>%
   ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
   geom_boxplot()+
   xlab(NULL)+
-ylab(NULL)+
+  ylab(NULL)+
   theme_bw()+
-    theme(legend.position = c(0.35, 0.7),
+  ylim(templim)+
+  theme(legend.position = c(0.35, 0.7),
         legend.background = element_rect( fill = alpha("white", 0)))+
-  labs(fill = "Site Location")
+        labs(fill = "Site Location")
 
 EC <- df %>%
   filter(Date == date)%>%
@@ -197,6 +221,7 @@ EC <- df %>%
   geom_boxplot(show.legend=FALSE)+
   xlab('Site Type')+
   ylab(NULL)+
+  ylim(eclim)+
   theme_bw()
 
 #combine each individual plot into a column 
@@ -277,7 +302,3 @@ pdf(file = "Weekscombined.pdf",
 Combo
 dev.off()
 ```
-
-Kendra notes
-
-Naming convention: Project first (for folders)-\> name script based on what it's doing. Can separate code into separate chunks as different scripts, I.e. "upload data", "clean data", "make model", etc.
