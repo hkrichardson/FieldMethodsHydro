@@ -6,11 +6,11 @@ editor: visual
 
 # Beaver Dam Nutrient Analysis
 
-**Purpose** The purpose of this code is to examine patterns in nutrients (NOx, PO4 and NH3), temperature, and specific conductivity above and below beaver dams in Dry Creek Experimental Watershed, Boise, ID.
+**Purpose** The purpose of this code is to examine patterns in nutrients (NOx, PO4 and NH4), temperature, and specific conductivity above and below beaver dams in Dry Creek Experimental Watershed, Boise, ID.
 
 **Output** The output of this code is two box and whisker figures. The first groups samples by above and below a beaver dam at two separate sites, a lower and upper dam. One plot analyzes each sample day separately, while the other combines values measured across all days.
 
-**To do** standardize y axis range
+**To do** Increase font size
 
 ## Load Libraries
 
@@ -30,275 +30,71 @@ list.files()
 df <- read.csv("Quality Beaver Meadows Data Template.csv")
 ```
 
-```{r}
-#set consistent y limits for each plot
-
-noxlim<-c(0.032,0.044)
-po4lim<-c(0.016,0.024)
-nh4lim<-c(0.0150,0.0225)
-templim<-c(0,8)
-eclim<-c(130,190)
-```
-
-## Week 1
-
-Pulls out data from Week 1 of analysis and builds box and whisker plots
+## Average data from all weeks
 
 ```{r}
-#Set date
-date<- "2/24/23"
-
 #Create above and below pool box and whisker plots for each measured value
 NOx <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
+  ggplot(aes(x = Site_Location, y = NOx_mgL, fill= Site_type))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab('NOx (mg/L)')+
-  ggtitle('Week 1')+
-  theme(plot.title = element_text(hjust = 0.5))+
-  ylim(noxlim)+
-  theme_bw()
-
-PO4 <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = PO4_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab('PO4 (mg/L)')+
-  ylim(po4lim)+
-  theme_bw()
-
-NH4 <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = NH4_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab('NH4 (mg/L)')+
-  ylim(nh4lim)+
-  theme_bw()
-
-temp <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  xlab('Site Type')+
-  ylab('Temp C')+
-  ylim(templim)+
-  theme_bw()
-
-EC <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = EC, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab('Site Type')+
-  ylab('EC (uS/cm)')+
-  ylim(eclim)+
-  theme_bw()
-
-#combine each individual plot into a column 
-Wk1<-plot_grid(NOx, PO4, NH4, temp, EC, 
-                nrow =5)
-
-```
-
-## Week 2
-
-Pulls out data from Week 2 of analysis and builds box and whisker plots
-
-```{r}
-#set date
-date<- "3/3/23"
-
-#Create above and below pool box and whisker plots for each measured value
-NOx <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab(NULL)+
-  ggtitle('Week 2')+
-  theme(plot.title = element_text(hjust = 0.5))+
-  ylim(noxlim)+
-  theme_bw()
-
-PO4 <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = PO4_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab(NULL)+
-  ylim(po4lim)+
-  theme_bw()
-
-NH4 <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = NH4_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab(NULL)+
-  ylim(nh4lim)+
-  theme_bw()
-
-temp <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab(NULL)+
-  ylim(templim)+
-  theme_bw()
-
-EC <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = EC, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab('Site Type')+
-  ylab(NULL)+
-  ylim(eclim)+
-  theme_bw()
-
-#combine each individual plot into a column 
-Wk2<-plot_grid(NOx, PO4, NH4, temp, EC, 
-                nrow =5)
-
-```
-
-## Week 3
-
-Pulls out data from Week 3 of analysis and builds box and whisker plots
-
-```{r}
-#set date
-date<- "3/10/23"
-
-#Create above and below pool box and whisker plots for each measured value
-NOx <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab(NULL)+
-  ggtitle('Week 3')+
-  theme(plot.title = element_text(hjust = 0.5))+
-  ylim(noxlim)+
-  theme_bw()
-
-PO4 <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = PO4_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab(NULL)+
-  ylim(po4lim)+
-  theme_bw()
-
-NH4 <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = NH4_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab(NULL)+
-  ylim(nh4lim)+
-  theme_bw()
-
-temp <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
-  geom_boxplot()+
-  xlab(NULL)+
-  ylab(NULL)+
+  scale_y_continuous(n.breaks=7)+
   theme_bw()+
-  ylim(templim)+
-  theme(legend.position = c(0.35, 0.7),
-        legend.background = element_rect( fill = alpha("white", 0)))+
-        labs(fill = "Site Location")
-
-EC <- df %>%
-  filter(Date == date)%>%
-  ggplot(aes(x = Site_type, y = EC, fill= Site_Location))+
-  geom_boxplot(show.legend=FALSE)+
-  xlab('Site Type')+
-  ylab(NULL)+
-  ylim(eclim)+
-  theme_bw()
-
-#combine each individual plot into a column 
-Wk3<-plot_grid(NOx, PO4, NH4, temp, EC, 
-                nrow =5)
-```
-
-### Combine weekly plots
-
-Combine box and whisker plots into one figure
-
-```{r}
-allplot<-plot_grid(Wk1,Wk2,Wk3,
-                   ncol= 3)
-```
-
-## Average weeks
-
-```{r}
-#Create above and below pool box and whisker plots for each measured value
-NOx <- df %>%
-  ggplot(aes(x = Site_type, y = NOx_mgL, fill= Site_Location))+
-  geom_boxplot(show.legend = FALSE)+
-  xlab(NULL)+
-  ylab('NOx (mg/L)')+
-  theme_bw()
+  theme(text = element_text(size = 14))  
 
 PO4 <- df %>%
-  ggplot(aes(x = Site_type, y = PO4_mgL, fill= Site_Location))+
+  ggplot(aes(x = Site_Location, y = PO4_mgL, fill= Site_type))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
   ylab('PO4 (mg/L)')+
-  theme_bw()
+  scale_y_continuous(n.breaks=7)+
+  theme_bw()+
+  theme(text = element_text(size = 14))  
 
-NH4 <- df %>%
-  ggplot(aes(x = Site_type, y = NH4_mgL, fill= Site_Location))+
+NH3 <- df %>%
+  ggplot(aes(x = Site_Location, y = NH4_mgL, fill= Site_type))+
   geom_boxplot(show.legend = FALSE)+
   xlab(NULL)+
-  ylab('NH4 (mg/L)')+
-  theme_bw()
+  ylab('NH3 (mg/L)')+
+  scale_y_continuous(n.breaks=7)+
+  theme_bw()+
+  theme(text = element_text(size = 14))  
 
 temp <- df %>%
-  ggplot(aes(x = Site_type, y = Temp._C, fill= Site_Location))+
+  ggplot(aes(x = Site_Location, y = Temp._C, fill= Site_type))+
   geom_boxplot()+
   xlab(NULL)+
   ylab('Temp C')+
   theme_bw()+
-      theme(legend.position = c(0.15, 0.7),
+      theme(legend.position = c(0.25, 0.73),
       legend.background = element_rect( fill = alpha("white", 0)))+
-  labs(fill = "Site Location")
+    labs(fill = NULL)+
+    scale_y_continuous(n.breaks=7)+
+  theme(text = element_text(size = 14))  
 
 EC <- df %>%
-  ggplot(aes(x = Site_type, y = EC, fill= Site_Location))+
+  ggplot(aes(x = Site_Location, y = EC, fill= Site_type))+
   geom_boxplot(show.legend = FALSE)+
   xlab('Site Type')+
   ylab('EC (uS/cm)')+
-  theme_bw()
+  scale_y_continuous(n.breaks=7)+
+  theme_bw()+
+  theme(text = element_text(size = 14))  
 
 #combine each individual plot into a column 
-Combo<-plot_grid(NOx, PO4, NH4, temp, EC, 
+Nutrient_plots<-plot_grid(NOx, PO4, NH3, temp, EC, 
                 nrow =5)
 ```
 
 ## Save pdfs
 
 ```{r}
-pdf(file = "Allplots.pdf",
-    width = 6,
-    height = 10)
-
-allplot
-dev.off()
-
 pdf(file = "Weekscombined.pdf",
     width = 4,
     height = 10)
 
-Combo
+Nutrient_plots
+
 dev.off()
 ```
